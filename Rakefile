@@ -12,7 +12,7 @@ HOE = Hoe.spec('rkelly') do |p|
   self.readme_file   = 'README.rdoc'
   self.history_file  = 'CHANGELOG.rdoc'
   self.extra_rdoc_files  = FileList['*.rdoc']
-#  self.clean_globs   = [GENERATED_PARSER]
+  self.clean_globs   = [GENERATED_PARSER]
 end
 
 file GENERATED_PARSER => "lib/parser.y" do |t|

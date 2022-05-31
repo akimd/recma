@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: rkelly 0.0.7.20220531155029 ruby lib
+# stub: rkelly 0.0.7.20220531155758 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "rkelly".freeze
-  s.version = "0.0.7.20220531155029"
+  s.version = "0.0.7.20220531155758"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.metadata = { "homepage_uri" => "https://github.com/nene/rkelly-remix" } if s.respond_to? :metadata=
