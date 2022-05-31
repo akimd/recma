@@ -7,7 +7,8 @@ token NULL TRUE FALSE
 
 /* keywords */
 token BREAK CASE CATCH CONST CONTINUE DEBUGGER DEFAULT DELETE DO ELSE
-token FINALLY FOR FUNCTION IF IN INSTANCEOF NEW RETURN SWITCH THIS THROW TRY
+token FINALLY FOR FUNCTION IF IN INSTANCEOF LET NEW RETURN SWITCH
+token THIS THROW TRY
 token TYPEOF VAR VOID WHILE WITH
 
 /* reserved keywords */
@@ -70,6 +71,7 @@ rule
   | WithStatement
   | SwitchStatement
   | LabelledStatement
+  | LetStatement
   | ThrowStatement
   | TryStatement
   | DebuggerStatement
@@ -106,7 +108,8 @@ rule
     IDENT
   | NULL | TRUE | FALSE
   | BREAK | CASE | CATCH | CONST | CONTINUE | DEBUGGER | DEFAULT | DELETE | DO | ELSE
-  | FINALLY | FOR | FUNCTION | IF | IN | INSTANCEOF | NEW | RETURN | SWITCH | THIS | THROW | TRY
+  | FINALLY | FOR | FUNCTION | IF | IN | INSTANCEOF | LET | NEW | RETURN | SWITCH
+  | THIS | THROW | TRY
   | TYPEOF | VAR | VOID | WHILE | WITH
   | RESERVED
   ;
@@ -555,7 +558,7 @@ rule
   ;
 
   VariableDeclarationNoIn:
-    IDENT                               { result = VarDeclNode.new(val[0],nil) }
+    IDENT                               { result = VarDeclNode.new(val[0], nil) }
   | IDENT InitializerNoIn               { result = VarDeclNode.new(val[0], val[1]) }
   ;
 
@@ -581,6 +584,30 @@ rule
   ConstDeclaration:
     IDENT             { result = VarDeclNode.new(val[0], nil, true) }
   | IDENT Initializer { result = VarDeclNode.new(val[0], val[1], true) }
+  ;
+
+  LetStatement:
+    LET LetDeclarationList ';' {
+      result = LetStatementNode.new(val[1])
+      debug(result)
+    }
+  | LET LetDeclarationList error {
+      result = LetStatementNode.new(val[1])
+      debug(result)
+      yyerror unless allow_auto_semi?(val.last)
+    }
+  ;
+
+  LetDeclarationList:
+    LetDeclaration                    { result = val }
+  | LetDeclarationList ',' LetDeclaration {
+      result = [val.first, val.last].flatten
+    }
+  ;
+
+  LetDeclaration:
+    IDENT             { result = VarDeclNode.new(val[0], nil, :let) }
+  | IDENT Initializer { result = VarDeclNode.new(val[0], val[1], :let) }
   ;
 
   Initializer:

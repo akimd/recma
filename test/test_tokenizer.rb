@@ -225,7 +225,7 @@ class TokenizerTest < Test::Unit::TestCase
     if in instanceof new return switch this throw try typeof var void while
     with
 
-    const true false null debugger
+    const let true false null debugger
   }.each do |kw|
     define_method(:"test_keyword_#{kw}") do
       tokens = @tokenizer.tokenize(kw)
@@ -245,7 +245,7 @@ class TokenizerTest < Test::Unit::TestCase
   end
 
   %w{
-    implements let private public yield
+    implements private public yield
     interface package protected static
   }.each do |rw|
     define_method(:"test_future_reserved_word_#{rw}_is_identifier") do
@@ -260,8 +260,8 @@ class TokenizerTest < Test::Unit::TestCase
     '!='  => :NE,
     '===' => :STREQ,
     '!==' => :STRNEQ,
-    '<='   => :LE,
-    '>='   => :GE,
+    '<='  => :LE,
+    '>='  => :GE,
     '||'  => :OR,
     '&&'  => :AND,
     '++'  => :PLUSPLUS,

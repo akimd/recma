@@ -14,7 +14,7 @@ module RKelly
       end
 
       def visit_VarDeclNode(o)
-        [ o.constant? ? :const_decl : :var_decl ] + super(o)
+        [ o.const? ? :const_decl : o.let? ? :let_decl : :var_decl ] + super(o)
       end
 
       def visit_VarStatementNode(o)
@@ -59,6 +59,10 @@ module RKelly
 
       def visit_ConstStatementNode(o)
         [:const, super]
+      end
+
+      def visit_LetStatementNode(o)
+        [:let, super]
       end
 
       def visit_MultiplyNode(o)
@@ -346,10 +350,7 @@ module RKelly
       end
 
       def visit_DotAccessorNode(o)
-        [:dot_access,
-          super,
-          o.accessor
-        ]
+        [:dot_access, *super]
       end
 
       def visit_NullNode(o)

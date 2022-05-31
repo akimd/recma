@@ -19,8 +19,8 @@ module RKelly
         While With
       }
       ARRAY_VALUE_NODES = %w{
-        Arguments Array CaseBlock ConstStatement ObjectLiteral SourceElements
-        VarStatement
+        Arguments Array CaseBlock ConstStatement LetStatement ObjectLiteral
+        SourceElements VarStatement
       }
       NAME_VALUE_NODES = %w{
         Label Property GetterProperty SetterProperty VarDecl
@@ -129,7 +129,10 @@ module RKelly
       end
 
       def visit_DotAccessorNode(o)
-        o.value.accept(self)
+        [
+          o.value.accept(self),
+          o.accessor,
+        ]
       end
     end
   end

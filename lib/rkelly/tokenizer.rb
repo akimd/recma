@@ -10,7 +10,7 @@ module RKelly
       if in instanceof new return switch this throw try typeof var void while
       with
 
-      const true false null debugger
+      const true false let null debugger
     }.map {|kw| [kw, kw.upcase.to_sym] }]
 
     # These 6 are always reserved in ECMAScript 5.1
